@@ -140,4 +140,5 @@ def ann_to_patchlist(ann_file, textpatch_format=False):
     patch_list = rectify_patch(patch_dict)
     if not textpatch_format:
         fix_list = textpatch_to_patchlist(patch_list)
-    return fix_list
+        return fix_list
+    return patch_list
