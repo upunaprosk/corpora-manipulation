@@ -120,7 +120,7 @@ def textpatch_to_patchlist(patch_list):
     return fix_list
 
 
-def ann_to_patchlist(ann_file):
+def ann_to_patchlist(ann_file, textpatch_format=False):
     with open(ann_file, "r", encoding="utf-8") as inann:
         ann_lines = sorted([al for al in inann.read().split("\n") if _check_entry(al)], reverse=True)
     ann_lines = [AnnEntry(line) for line in ann_lines]
@@ -138,5 +138,6 @@ def ann_to_patchlist(ann_file):
         else:
             pass
     patch_list = rectify_patch(patch_dict)
-    fix_list = textpatch_to_patchlist(patch_list)
+    if not textpatch_format:
+        fix_list = textpatch_to_patchlist(patch_list)
     return fix_list
