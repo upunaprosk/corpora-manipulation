@@ -81,6 +81,7 @@ Execute the following commands to get up-to-date [Russian Error-Annotated Learne
 eval {mkdir,cd}\ realec_data\;
 wget -q 'https://realec.org/ajax.cgi?action=downloadCollection&collection=%2Fexam%2F&protocol=1' -O exam.tar.gz
 tar xzvf exam.tar.gz --strip-components=1 -C . --wildcards 'exam/Exam*'
+rm exam.tar.gz
 cd ..
 ```
 or download it [manually](https://realec.org).   
