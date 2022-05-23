@@ -21,6 +21,7 @@ def main(args):
                     text = intxt.read()
                     if error:
                         text, patch = filter_patch(text, patch, error)
+                    if not patch: continue
                     if args.sentencize:
                         nlp = spacy.load('en_core_web_sm', disable=['ner', 'attribute_ruler', 'lemmatizer'])
                         nlp.add_pipe('sentencizer_boundaries', before="parser")
@@ -29,7 +30,7 @@ def main(args):
                             realec_entries.append({"id": essay_id,
                                                    "text": key,
                                                    "patch": value})
-                    elif patch:
+                    else:
                         realec_entries.append({"id": essay_id,
                                                "text": text,
                                                "patch": patch})
@@ -52,9 +53,11 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(
         description="Parse parallel data"
     )
-    parser.add_argument("-error_type", type=str, default="")
+    parser.add_argument("-error_type", type=str, default="", help='error_type')
     parser.add_argument("--sentencize", action=argparse.BooleanOptionalAction)
-    parser.add_argument("--input_dir", type=str, default="realec_data")
-    parser.add_argument("--output_dir", type=str, default="realec_parallel")
+    parser.add_argument("--input_dir", type=str, default="realec_data",
+                              help = "Input directory (default: %(default)s)")
+    parser.add_argument("--output_dir", type=str, default="realec_parallel",
+                              help = "Output directory (default: %(default)s)")
     args = parser.parse_args()
     main(args)
