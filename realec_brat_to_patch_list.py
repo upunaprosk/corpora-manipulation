@@ -1,5 +1,9 @@
 import re
 from collections import OrderedDict
+import glob
+import os
+from tqdm import tqdm
+import copy
 
 
 class AnnEntry:
@@ -101,7 +105,8 @@ def rectify_patch(patch_dict):
     rectified_list = []
     pd = patch_dict
     textpatch_list = sorted(pd.items(), key=lambda k: (k[1].start, k[1].end, int(k[0][1:])))
-    for el in textpatch_list:
+    intersections = set()
+    for i, el in enumerate(textpatch_list):
         patch = el[1]
         if patch.corr_str is None:  # ignores annotations without correction suggestions
             continue
@@ -109,14 +114,17 @@ def rectify_patch(patch_dict):
         if p:
             if not endswithpunct(patch.corr_str) and patch.corr_str != "":  # to not add back what we want to delete
                 patch.corr_str += p  # adds punctuation in case correction suggestion omits it
+        if len(rectified_list) and patch.start < rectified_list[-1].end:
+            intersections.add(i - 1)
         rectified_list.append(patch)
+    rectified_list = [i for j, i in enumerate(rectified_list) if j not in intersections]
     return rectified_list
 
 
 def textpatch_to_patchlist(patch_list):
     fix_list = []
     for patch in patch_list:
-        fix_list.append([patch.start, patch.end, patch.corr_str])
+        fix_list.append([patch.start, patch.end, patch.err_type, patch.corr_str])
     return fix_list
 
 
@@ -142,3 +150,28 @@ def ann_to_patchlist(ann_file, textpatch_format=False):
         fix_list = textpatch_to_patchlist(patch_list)
         return fix_list
     return patch_list
+
+
+def filter_patch(text, patches, err_type):
+    patches.sort(key=lambda x: x.start)
+    filtered_text = ""
+    patch = []
+    start = 0
+    delta = 0
+    for p in patches:
+        filtered_text += text[start:p.start]
+        shift = 0
+        patch_upd = copy.deepcopy(p)
+        if p.err_type.lower() != err_type.lower():
+            shift = len(p.corr_str) - len(p.orig_str)
+            filtered_text += p.corr_str
+        else:
+            filtered_text += p.orig_str
+            patch_upd.start += delta
+            patch_upd.end += delta
+            patch.append(patch_upd)
+        delta += shift
+        start = p.end
+    filtered_text += text[start:]
+    filtered_patch = textpatch_to_patchlist(patch)
+    return filtered_text, filtered_patch

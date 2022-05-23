@@ -13,9 +13,11 @@ def _rectify_patch(patch_list):
     """
     patch_list.sort(key=operator.itemgetter(1))
     for i in reversed(range(len(patch_list) - 1)):
-        start, end, corr = patch_list[i]
+        start, end = patch_list[i][:2]
+        corr = patch_list[i][-1]
         for j in range(i + 1, len(patch_list)):
-            lstart, lend, lcorr = patch_list[j]
+            lstart, lend = patch_list[j][:2]
+            lcorr = patch_list[j][-1]
             if lstart > lend:
                 del patch_list[j]
                 break
@@ -45,7 +47,8 @@ def apply_patch_to_text(text, patch_list):
     text_d = {i: c for i, c in enumerate(text)}
 
     for patch in patch_list:
-        start, end, correction = patch
+        start, end = patch[:2]
+        correction = patch[-1]
         if start == end:
             if start == l:
                 text_d[start] = correction
