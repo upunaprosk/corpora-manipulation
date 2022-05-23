@@ -1,6 +1,6 @@
 # Corpora-manipulation
 
-Tool for converting Russian Error-Annotated Learner English Corpus to parallel dataset specifying error type.
+Tool for converting Russian Error-Annotated Learner English Corpus to parallel datasets specifying error type.
 
 # REALEC error types
 
