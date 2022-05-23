@@ -159,3 +159,5 @@ Absence_comp_sent
 Redundant_comp
 Absence_explanation
 ```
+
+Leave created virtual environment: ```deactivate```
