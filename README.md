@@ -95,9 +95,9 @@ Run ```parse.py``` specifying error tag and sentencize options:
 ```
 python parse.py -error_type=numerals --sentencize
 ```
-The output frame (```realec_df.*(error_type)_(sentencized).pickle```) would contain the following keys:  
+The output frame (```realec_df.*(error_type)_(parallel)_(sentencized).pickle```) would contain the following keys:  
 	- if ```-parallel```: id (essay id) & orig_text (original sentence/text) & corr_text (corrected sentence/text) & number of corrections (if the option ```--no-sentencize``` is passed)  
-	- id (essay id); text (original sentence/text)	patch (List of corrections: ```[l_bound, r_bound, correction]```).   
+	- id (essay id) & text (original sentence/text)	& patch (List of corrections: ```[l_bound, r_bound, correction]```).   
 
 **Options** 
 
