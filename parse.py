@@ -38,14 +38,15 @@ def main(args):
             print(f"File does not exist: {fid}")
     if realec_entries:
         realec_df = pd.DataFrame(realec_entries)
+        filename = "realec_df"
+        if error:
+            filename += f"_{error}"
         if args.parallel:
+            filename += "_parallel"
             realec_df = list_to_corpus_df_realec(realec_entries)
             if error:
                 realec_df = realec_df.drop(["corrections_num"], axis=1)
             realec_df = realec_df.sort_values(by=['id']).reset_index(drop=True)
-        filename = "realec_df"
-        if error:
-            filename += f"_{error}"
         if args.sentencize:
             filename += "_sentencized"
         os.makedirs(f"{args.output_dir}", exist_ok=True)
