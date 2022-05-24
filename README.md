@@ -121,7 +121,7 @@ optional arguments:
                         Output directory (default: realec_parallel)
 
 ```
-*Note:```sentencize``` option is more relevant to use for less context-dependent errors, e.g. capitalisation, spelling, numerals (not Inappropriate_register or Confusion_of_structures).*
+*Note:```sentencize``` option is more relevant to use for less context-dependent errors, e.g. capitalisation, spelling, numerals (not Inappropriate_register or Linking_device or Ref_device).*
 
 **Error type possible options**
 ```
