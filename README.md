@@ -95,7 +95,9 @@ Run ```parse.py``` specifying error tag and sentencize options:
 ```
 python parse.py -error_type=numerals --sentencize
 ```
-The output file (```.*error_type.pickle```) would contain initial&corrected texts and number of corrections (if the option ```--no-sentencize``` is passed).
+The output frame (```realec_df.*(error_type)_(parallel)_(sentencized).pickle```) would contain the following keys:  
+	- if ```-parallel```: id (essay id) & orig_text (original sentence/text) & corr_text (corrected sentence/text) & number of corrections (if the option ```--no-sentencize``` is passed)  
+	- id (essay id) & text (original sentence/text)	& patch (List of corrections: ```[l_bound, r_bound, correction]```).   
 
 **Options** 
 
@@ -103,11 +105,21 @@ The output file (```.*error_type.pickle```) would contain initial&corrected text
 optional arguments:
   -h, --help            show this help message and exit
   -error_type ERROR_TYPE
+                        Type of error; allowed: Punctuation|Spelling|Capitalisation|Articles|Quantifiers|Tense_choice|Tense_form|
+                        Voice|Modals|Verb_pattern|Participial_constr|Infinitive_constr|Nouns|Countable_uncountable|Prepositional_n
+                        oun|Possessive|Noun_number|Prepositions|Conjunctions|Adjectives|Prepositional_adjective|Adverbs|Numerals|P
+                        ronouns|Agreement_errors|Word_order|Relative_clause|Lack_par_constr|Negation|Comparative_constr|Confusion_
+                        of_structures|Word_choice|lex_item_choice|lex_part_choice|Derivation|Formational_affixes|Category_confusio
+                        n|Compound_word|Discourse|Ref_device|Coherence|Linking_device|Inappropriate_register|Absence_comp_sent|Red
+                        undant_comp|Absence_explanation
+  -parallel             parse parallel data or not (error spans only by default)
   --sentencize, --no-sentencize
+                        sentencize data or not
   --input_dir INPUT_DIR
                         Input directory (default: realec_data)
   --output_dir OUTPUT_DIR
                         Output directory (default: realec_parallel)
+
 ```
 *Note:```sentencize``` option is more relevant to use for less context-dependent errors, e.g. capitalisation, spelling, numerals (not Inappropriate_register or Confusion_of_structures).*
 
